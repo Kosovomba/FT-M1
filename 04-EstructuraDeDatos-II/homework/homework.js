@@ -11,11 +11,65 @@
 // search: Busca un valor dentro de la lista. Puede recibir un valor o una función. Si no hubiera resultados, devuelve null.
 
 function LinkedList() {
-
+  this.head = null
+  this._length = 0
 }
 
 function Node(value){
-
+  this.next = null
+  this.value = value
+}
+LinkedList.prototype.add = function(value) {
+  var newNode = new Node(value)
+  if (this.head == null) {
+    this.head = newNode
+  }
+  else {
+    var current = this.head
+    while (current.next !== null) {
+      current = current.next
+    }
+    current.next = newNode
+  }
+  this._length++
+}
+LinkedList.prototype.remove = function() {
+  if (this.head == null) {
+    return null
+  }
+  if (this.head.next == null) {
+    this._length--
+    let current = this.head.value
+    this.head = null
+    return current
+  }
+  else {
+    var current = this.head
+    while (current.next.next !== null) {
+      current = current.next
+    }    
+    this._length--
+    var current2 = current.next.value
+    current.next = null    
+    return current2
+  }    
+}
+LinkedList.prototype.search = function(elemento) {
+  var current = this.head
+  while (current !== null && current.value !== elemento) { 
+    if (typeof elemento === 'function') {
+      if (elemento(current.value) === true) {
+        return current.value
+      }
+    }   
+    current = current.next    
+  }
+  if (current === null) {
+    return null
+  }
+  else {
+    return current.value
+  }
 }
 
 // Hash Table( ver información en: https://es.wikipedia.org/wiki/Tabla_hash)
